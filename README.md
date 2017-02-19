@@ -23,3 +23,31 @@ As mentioned above the provision (setup.sh) file can be used outside of vagrant.
 2. Set your own secret keys
 3. Set the number of workers to match your servers cpu cores
 4. Change mentions of the vagrant user to your own user
+5. Run the commands under your own user manually one by one to make sure to fix any individual errors specific to your system as they appear.
+
+### Common issues
+
+#### Upstart
+If you get the error “Unable to connect to Upstart: Failed to connect to socket /com/ubuntu/upstart: Connection refused“ when running `start puma-manager` it likely means you're running Ubuntu 15.04 or higher which uses systemd instead of upstart. To return to using upstart you can run
+```
+sudo apt-get install upstart-sysv
+sudo update-initramfs -u
+reboot
+```
+
+### nokogiri
+If nokogiri isn't installing try `gem install nokogiri -v 1.6.8.1 -- --use-system-libraries`
+
+### ExecJS
+If you get the error `ExecJS::RuntimeError: (execjs):1 during assets:precompile` try running `node -v`. If this returns "The program 'node' is currently not installed." then run:
+```
+sudo apt-get install python-software-properties
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+sudo apt-get install nodejs
+```
+`node -v` should then return your node version.
+
+If there's still issues try using sudo i.e. `RAILS_ENV=production sudo bundle exec rake assets:precompile`
+
+### Assets failing to load
+In config/environments/production.rb set `config.serve_static_files` to true.
