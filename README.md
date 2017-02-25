@@ -52,5 +52,5 @@ If there's still issues try using sudo i.e. `RAILS_ENV=production sudo bundle ex
 ### Assets failing to load
 In config/environments/production.rb set `config.serve_static_files` to true.
 
-### Site note found
+### Site not found \\[Domain]
 If setting up a site with a domain remove the backslashes from the virtual host at /etc/nginx/sites-available/default
